@@ -14,7 +14,8 @@ import (
 // 用于应用初始化。
 func initLog() {
 	timeString := time.Now()
-	path := g.Cfg().GetString("logger.Path") + "/" + timeString.Format("2006-01") + "/" + timeString.Format("2006-01-02")
+	//path := g.Cfg().GetString("logger.Path") + "/" + timeString.Format("2006-01") + "/" + timeString.Format("2006-01-02")
+	path :=  "./logs" + timeString.Format("2006-01") + "/" + timeString.Format("2006-01-02")
 	//设置日志路径，自动创建目录
 	glog.SetPath(path)
 	//开启异步日志记录
