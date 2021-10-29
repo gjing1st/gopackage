@@ -5,7 +5,6 @@
 package gplog
 
 import (
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/glog"
 	"strings"
 	"time"
@@ -15,7 +14,7 @@ import (
 func initLog() {
 	timeString := time.Now()
 	//path := g.Cfg().GetString("logger.Path") + "/" + timeString.Format("2006-01") + "/" + timeString.Format("2006-01-02")
-	path :=  "./logs" + timeString.Format("2006-01") + "/" + timeString.Format("2006-01-02")
+	path :=  "./logs/" + timeString.Format("2006-01") + "/" + timeString.Format("2006-01-02")
 	//设置日志路径，自动创建目录
 	glog.SetPath(path)
 	//开启异步日志记录
@@ -42,7 +41,7 @@ func LogFile(fileName string, v ...interface{}) {
 	}
 	//如果文件名为空，则默认使用common
 	if len(fileName) == 0 {
-		fileName = "common"
+		fileName = "common.log"
 	}
 
 	//使用回溯值记录调用日志文件名和行号
