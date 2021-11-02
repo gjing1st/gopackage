@@ -38,7 +38,7 @@ type DepartmentListResponse struct {
 // @return: 
 func ReqList(accessToken string, depId int) ([]byte, error) {
 	params := url.Values{}
-	parseURL, err := url.Parse(workweixin.BaseUrl + "/gettoken")
+	parseURL, err := url.Parse(workweixin.BaseUrl + "/department/list")
 	if err != nil {
 		log.Println("err")
 		return nil, err
