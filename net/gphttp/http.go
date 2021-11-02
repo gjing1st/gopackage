@@ -7,7 +7,7 @@
 package gphttp
 
 import (
-	"github.com/gjing1st/gopackage/gplog"
+	log "github.com/gjing1st/gopackage/gplog"
 	"io/ioutil"
 	"net/http"
 )
@@ -15,14 +15,15 @@ import (
 func GetRequest(url string) ([]byte,error){
 	resp, err := http.Get(url)
 	if err != nil {
-		gplog.LogFile("request","请求",url,"失败,err=",err)
+		log.LogFile("request","请求",url,"失败,err=",err)
 		return nil, err
 	}
 	b, err := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
 	if err != nil {
-		gplog.LogFile("request","fetch: reading %s: %v\n", url, err)
+		log.LogFile("request","fetch: reading %s: %v\n", url, err)
 		return nil, err
 	}
 	return b,nil
 }
+
