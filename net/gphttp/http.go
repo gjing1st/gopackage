@@ -19,6 +19,7 @@ import (
 	"os"
 	"strings"
 	"syscall"
+	"unsafe"
 )
 
 // GetRequest
@@ -106,7 +107,38 @@ func UrlPost(apiUrl string,postParam map[string]string)(result map[string]interf
 	return obj, err3
 }
 
+// PostJson
+// @description: post请求，参数为josn
+// @param: reqUrl 要请求的url地址
+// @param: bytesData json字节
+// @author: GJing
+// @email: gjing1st@gmail.com
+// @date: 2021/11/2 22:18
+// @success: reqUrl接口返回的字节数组
+func PostJson(reqUrl string,bytesData []byte) (result []byte, err error) {
 
+	reader := bytes.NewReader(bytesData)
+
+	request, err := http.NewRequest("POST", reqUrl, reader)
+	if err != nil {
+		return nil, err
+	}
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	client := http.Client{}
+	resp, err := client.Do(request)
+	if err != nil {
+		return nil, err
+	}
+	result, err = ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+	////byte数组直接转成string，优化内存
+	//str := (*string)(unsafe.Pointer(&result))
+	//fmt.Println(*str)
+	return result,nil
+}
 
 func httpPost() {
 	resp, err := http.Post("http://www.01happy.com/demo/accept.php",
