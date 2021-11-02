@@ -38,6 +38,7 @@ func getRequestUrl(accessToken string) string {
 	}
 	params.Set("access_token", accessToken)
 
+	parseURL.RawQuery = params.Encode()
 	urlPathWithParams := parseURL.String()
 	return urlPathWithParams
 }
