@@ -49,7 +49,7 @@ func ReqSimpleList(accessToken string, depId int) ([]byte, error) {
 	}
 	params.Set("access_token", accessToken)
 	if depId > 0 {
-		params.Set("id", strconv.Itoa(depId))
+		params.Set("department_id", strconv.Itoa(depId))
 	}
 	//如果参数中有中文参数,这个方法会进行URLEncode
 	parseURL.RawQuery = params.Encode()
