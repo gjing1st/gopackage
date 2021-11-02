@@ -34,7 +34,7 @@ func GetToken(corpid, corpsecret string) ([]byte, error) {
 	//如果参数中有中文参数,这个方法会进行URLEncode
 	parseURL.RawQuery = params.Encode()
 	urlPathWithParams := parseURL.String()
-	return gphttp(urlPathWithParams)
+	return gphttp.GetRequest(urlPathWithParams)
 	//resp, err := http.Get(urlPathWithParams)
 	//if err != nil {
 	//	log.Println("err")
