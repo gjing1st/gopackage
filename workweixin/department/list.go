@@ -1,4 +1,4 @@
-// department.go
+// list.go
 // Created by BestTeam.
 // User: GJing
 // WeChat: ks_kdb
@@ -9,21 +9,26 @@ package department
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gjing1st/gopackage/workweixin"
 	"github.com/gjing1st/gopackage/net/gphttp"
+	"github.com/gjing1st/gopackage/workweixin"
 	"log"
 	"net/url"
 	"strconv"
 )
 
+// Department
+// 部门信息
 type Department struct {
 	Id       int    `json:"id"`
 	Name     string `json:"name"`
 	NameEn   string `json:"name_en"`
-	Parentid int `json:"parentid"`
+	Parentid int    `json:"parentid"`
 	Order    int    `json:"order"`
 }
-type DepartmentListResponse struct {
+
+// ListResponse
+// 部门列表
+type ListResponse struct {
 	workweixin.BaseResponse
 	Department []Department `json:"department"`
 }
@@ -60,9 +65,9 @@ func ReqList(accessToken string, depId int) ([]byte, error) {
 // @email: gjing1st@gmail.com
 // @date: 2021/11/2 12:53
 // @return: 
-func GetListRes(res []byte) ([]Department, error){
-	listRes := DepartmentListResponse{}
-	err := json.Unmarshal(res,&listRes)
+func GetListRes(res []byte) ([]Department, error) {
+	listRes := ListResponse{}
+	err := json.Unmarshal(res, &listRes)
 	if err != nil {
 		log.Println("depart", "departmentList转换失败", err)
 	}
@@ -81,8 +86,8 @@ func GetListRes(res []byte) ([]Department, error){
 // @date: 2021/11/2 12:57
 // @return: 部门列表
 func GetList(accessToken string, depId int) ([]Department, error) {
-	res,err := ReqList(accessToken,depId)
-	if err != nil{
+	res, err := ReqList(accessToken, depId)
+	if err != nil {
 		return nil, err
 	}
 	return GetListRes(res)

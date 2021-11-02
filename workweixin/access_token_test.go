@@ -14,7 +14,7 @@ import (
 )
 
 func TestGetToken(t *testing.T) {
-	b,err := workweixin.GetToken("ww887a89a56b64260f","65nTxxqhCmVmiq151HFs4M_lRSBpBOp61Mw2IA1XCUQ")
-	fmt.Println(1111,b)
-	fmt.Println(22222,err)
+	b, err := workweixin.GetToken("ww887a89a56b64260f", "65nTxxqhCmVmiq151HFs4M_lRSBpBOp61Mw2IA1XCUQ")
+	fmt.Println(1111, b)
+	fmt.Println(22222, err)
 }

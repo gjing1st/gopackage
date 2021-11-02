@@ -19,8 +19,8 @@ var BaseUrl = "https://qyapi.weixin.qq.com/cgi-bin"
 // BaseResponse
 // 企业微信公共返回头
 type BaseResponse struct {
-	Errcode     int    `json:"errcode"`
-	Errmsg      string `json:"errmsg"`
+	Errcode int    `json:"errcode"`
+	Errmsg  string `json:"errmsg"`
 }
 
 // AccessTokenRes
@@ -83,7 +83,7 @@ func GetTokenRes(res []byte) (string, error) {
 // @return: access_token值
 func GetAccessToken(corpid, corpsecret string) (string, error) {
 	res, err := ReqToken(corpid, corpsecret)
-	if err != nil{
+	if err != nil {
 		return "", err
 	}
 	return GetTokenRes(res)
