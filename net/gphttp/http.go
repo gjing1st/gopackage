@@ -19,7 +19,6 @@ import (
 	"os"
 	"strings"
 	"syscall"
-	"unsafe"
 )
 
 // GetRequest
