@@ -19,7 +19,7 @@ import (
 // SimpleUser
 // 简要用户信息
 type SimpleUser struct {
-	UserId     int    `json:"userid"`
+	UserId     string    `json:"userid"`
 	Name       string `json:"name"`
 	Department []int  `json:"department"`
 	OpenUserid string `json:"open_userid"`
