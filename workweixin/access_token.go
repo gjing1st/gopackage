@@ -9,18 +9,20 @@ package workweixin
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gjing1st/gopackage/net/gphttp"
 	log "github.com/gjing1st/gopackage/gplog"
+	"github.com/gjing1st/gopackage/net/gphttp"
 	"net/url"
 )
 
 var baseUrl = "https://qyapi.weixin.qq.com/cgi-bin"
 
+// AccessTokenRes
+// 企业微信返回的数据
 type AccessTokenRes struct {
-	Errcode int `json:"errcode"`
-	Errmsg string `json:"errmsg"`
+	Errcode     int    `json:"errcode"`
+	Errmsg      string `json:"errmsg"`
 	AccessToken string `json:"access_token"`
-	ExpiresIn int `json:"expires_in"`
+	ExpiresIn   int    `json:"expires_in"`
 }
 
 // GetToken
@@ -53,14 +55,27 @@ func GetToken(corpid, corpsecret string) ([]byte, error) {
 // @email: gjing1st@gmail.com
 // @date: 2021/11/2 11:19
 // @return: access_token值
-func GetTokenRes(res []byte) (string,error) {
+func GetTokenRes(res []byte) (string, error) {
 	tokenRes := AccessTokenRes{}
-	err :=json.Unmarshal(res,&tokenRes)
-	if err != nil{
-		log.Println("token","access_token转换失败",err)
+	err := json.Unmarshal(res, &tokenRes)
+	if err != nil {
+		log.Println("token", "access_token转换失败", err)
 	}
-	if tokenRes.Errcode !=0{
-		return "",errors.New(tokenRes.Errmsg)
+	if tokenRes.Errcode != 0 {
+		return "", errors.New(tokenRes.Errmsg)
 	}
-	return tokenRes.AccessToken,nil
+	return tokenRes.AccessToken, nil
+}
+
+// GetAccessToken
+// @description: 完整版直接获取token函数
+// @param: corpid 企业ID
+// @param: corpsecret 应用的凭证密钥
+// @author: GJing
+// @email: gjing1st@gmail.com
+// @date: 2021/11/2 12:24
+// @return: access_token值
+func GetAccessToken(corpid, corpsecret string) (string, error) {
+	res, _ := GetToken(corpid, corpsecret)
+	return GetTokenRes(res)
 }
