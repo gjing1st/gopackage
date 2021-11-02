@@ -20,7 +20,7 @@ type Department struct {
 	Id       int    `json:"id"`
 	Name     string `json:"name"`
 	NameEn   string `json:"name_en"`
-	Parentid string `json:"parentid"`
+	Parentid int `json:"parentid"`
 	Order    int    `json:"order"`
 }
 type DepartmentListResponse struct {
