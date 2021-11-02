@@ -6,6 +6,7 @@ package gplog
 
 import (
 	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/util/gconv"
 	"strings"
 	"time"
 )
@@ -48,4 +49,17 @@ func LogFile(fileName string, v ...interface{}) {
 	glog.Skip(1).Line(true).File(fileName).Println(v)
 }
 
-
+// Println
+// @description: 兼容官方log包
+// @param:
+// @author: GJing
+// @email: gjing1st@gmail.com
+// @date: 2021/11/2 11:33
+// @return:
+func Println(v ...interface{})  {
+	fileName := "common.log"
+	if len(v)>0{
+		fileName = gconv.String(v[0])
+	}
+	LogFile(fileName,v)
+}
