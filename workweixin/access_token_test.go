@@ -9,6 +9,7 @@ package workweixin
 import (
 	"fmt"
 	"testing"
+	"github.com/gjing1st/gopackage/workweixin"
 )
 
 func TestGetToken(t *testing.T) {

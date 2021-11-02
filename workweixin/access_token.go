@@ -9,6 +9,7 @@ package workweixin
 import (
 	"log"
 	"net/url"
+	"github.com/gjing1st/gopackage/net/gphttp"
 )
 
 var baseUrl = "https://qyapi.weixin.qq.com/cgi-bin"
