@@ -14,28 +14,34 @@ import (
 	"net/url"
 )
 
-var baseUrl = "https://qyapi.weixin.qq.com/cgi-bin"
+var BaseUrl = "https://qyapi.weixin.qq.com/cgi-bin"
+
+// BaseResponse
+// 企业微信公共返回头
+type BaseResponse struct {
+	Errcode     int    `json:"errcode"`
+	Errmsg      string `json:"errmsg"`
+}
 
 // AccessTokenRes
 // 企业微信返回的数据
 type AccessTokenRes struct {
-	Errcode     int    `json:"errcode"`
-	Errmsg      string `json:"errmsg"`
+	BaseResponse
 	AccessToken string `json:"access_token"`
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-// GetToken
-// @description: 获取应用的access_token
+// ReqToken
+// @description: 请求企业微信获取应用的access_token
 // @param: corpid 企业ID
 // @param: corpsecret 应用的凭证密钥
 // @author: GJing
 // @email: gjing1st@gmail.com
 // @date: 2021/11/2 10:54
 // @return: 
-func GetToken(corpid, corpsecret string) ([]byte, error) {
+func ReqToken(corpid, corpsecret string) ([]byte, error) {
 	params := url.Values{}
-	parseURL, err := url.Parse(baseUrl + "/gettoken")
+	parseURL, err := url.Parse(BaseUrl + "/gettoken")
 	if err != nil {
 		log.Println("err")
 		return nil, err
@@ -68,7 +74,7 @@ func GetTokenRes(res []byte) (string, error) {
 }
 
 // GetAccessToken
-// @description: 完整版直接获取token函数
+// @description: 获取应用的access_token
 // @param: corpid 企业ID
 // @param: corpsecret 应用的凭证密钥
 // @author: GJing
@@ -76,6 +82,9 @@ func GetTokenRes(res []byte) (string, error) {
 // @date: 2021/11/2 12:24
 // @return: access_token值
 func GetAccessToken(corpid, corpsecret string) (string, error) {
-	res, _ := GetToken(corpid, corpsecret)
+	res, err := ReqToken(corpid, corpsecret)
+	if err != nil{
+		return "", err
+	}
 	return GetTokenRes(res)
 }
