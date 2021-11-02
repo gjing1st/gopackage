@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/gjing1st/gopackage/workweixin"
+	"github.com/gjing1st/gopackage/net/gphttp"
 	"log"
 	"net/url"
 	"strconv"
