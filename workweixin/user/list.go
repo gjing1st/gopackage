@@ -19,8 +19,11 @@ import (
 type DetailList struct {
 	SimpleUser
 	Position string `json:"position"`
+	Gender   string `json:"gender"`
 	Mobile   string `json:"mobile"`
 	Email    string `json:"email"`
+	Avatar   string `json:"avatar"`
+	Status   int    `json:"status"`
 }
 
 type DetailListResp struct {
