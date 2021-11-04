@@ -1,8 +1,10 @@
 package message
 
 import (
-	"testing"
+	"fmt"
 	"github.com/gjing1st/gopackage/workweixin/message"
+	"gopackage/workweixin"
+	"testing"
 )
 
 func TestSendCardMessage(t *testing.T) {
@@ -24,8 +26,12 @@ func TestSendCardMessage(t *testing.T) {
 		param,
 		text,
 	}
-	token := "fMbJLQyslN7kA6zQud4_gzE3hcCJYG0eM9bEgQQc9MJR5NH99GeGvRZU_ZVeKVO10WqFV5POok3Kgofv_4_iK4Q3ZR7BPge3YzujAm3rSXizp8BFyL-JOByKlLWyaC-frb1E5nGpIb19Oml9zibnwNbEkjnBgl1w01l32dmuQACNwrGw0qWyyFuKpXTO1JZ8PsyIdDjAm-2Ir2cMI19Akw"
-
-	message.SendCardMessage(token,req)
+	//token := "fMbJLQyslN7kA6zQud4_gzE3hcCJYG0eM9bEgQQc9MJR5NH99GeGvRZU_ZVeKVO10WqFV5POok3Kgofv_4_iK4Q3ZR7BPge3YzujAm3rSXizp8BFyL-JOByKlLWyaC-frb1E5nGpIb19Oml9zibnwNbEkjnBgl1w01l32dmuQACNwrGw0qWyyFuKpXTO1JZ8PsyIdDjAm-2Ir2cMI19Akw"
+	corpid:= "ww887a89a56b64260f"
+	corpsecret := "Xh0Cn3oC1n997ImN3ZQlsWFkGIk8rlsgDPIQUp4PPpA"
+	accessToken,_:= workweixin.GetAccessToken(corpid,corpsecret)
+	fmt.Println("accessToken",accessToken)
+	res,err := message.SendCardMessage(accessToken,req)
+	fmt.Println(string(res),err)
 
 }
