@@ -6,14 +6,15 @@
 package functions
 
 import (
+	"archive/zip"
 	"crypto/md5"
 	"encoding/hex"
-	"encoding/json"
-	"github.com/gjing1st/gopackage/net/gphttp"
 	"github.com/gogf/gf/util/gconv"
 	"io"
 	"log"
-	"net/url"
+	"math"
+	"os"
+	"path/filepath"
 )
 
 // Md5
@@ -64,35 +65,134 @@ func ReserveNumber(i interface{}, m int) string {
 	return s
 }
 
-type AuthRes struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-}
-
-// @description: 请求授权中心
-// @param:
+// @description: 压缩文件夹
+// @param: dir 文件夹路径 ex:F:\project\Go\ChineseMedicine\ChineseMedicine\adminApi\public\image
+// @param: zipFile 压缩后的文件夹路径和名称 ex: ./test.zip
 // @author: GJing
 // @email: gjing1st@gmail.com
-// @date: 2021/11/7 12:47
+// @date: 2021/1/13 15:17
 // @success:
-func Auth(sys, token string) (AuthRes, error) {
-	//BaseUrl := "http://127.0.0.1:8199/auth/"
-	BaseUrl := "http://auth.zdhr.top/auth/"
-	params := url.Values{}
-	parseURL, err := url.Parse(BaseUrl + sys)
+// @remark: 相对路径压缩后可能导致里面目录名称错误，可使用绝对路径。具体原因未知。str, _ := os.Getwd()获取当前程序运行所在目录，str拼接相对路径
+func zipDir(dir, zipFile string) {
+	// TODO 此加解压有问题，使用中医中最新的加解压
+	fz, err := os.Create(zipFile)
 	if err != nil {
-		log.Println("err")
-		return AuthRes{}, err
+		log.Fatalf("Create zip file failed: %s\n", err.Error())
 	}
-	params.Set("token", token)
-	//如果参数中有中文参数,这个方法会进行URLEncode
-	parseURL.RawQuery = params.Encode()
-	urlPathWithParams := parseURL.String()
-	resBytes, err := gphttp.GetRequest(urlPathWithParams)
-	if err != nil {
-		return AuthRes{}, err
-	}
-	authRes := AuthRes{}
-	err = json.Unmarshal(resBytes, &authRes)
-	return authRes, err
+	defer fz.Close()
+
+	w := zip.NewWriter(fz)
+	defer w.Close()
+
+	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			fDest, err := w.Create(path[len(dir)+1:])
+			if err != nil {
+				log.Printf("Create failed: %s\n", err.Error())
+				return nil
+			}
+			fSrc, err := os.Open(path)
+			if err != nil {
+				log.Printf("Open failed: %s\n", err.Error())
+				return nil
+			}
+			defer fSrc.Close()
+			_, err = io.Copy(fDest, fSrc)
+			if err != nil {
+				log.Printf("Copy failed: %s\n", err.Error())
+				return nil
+			}
+		}
+		return nil
+	})
 }
+
+// @description: 解压缩
+// @param:zipFile 压缩文件路径 ./test.zip
+// @param:dir 需要解压到的指定文件夹目录 ex :F:\dumps_copy
+// @author: GJing
+// @email: gjing1st@gmail.com
+// @date: 2021/1/13 15:19
+// @success:
+func unzipDir(zipFile, dir string) {
+
+	r, err := zip.OpenReader(zipFile)
+	if err != nil {
+		log.Fatalf("Open zip file failed: %s\n", err.Error())
+	}
+	defer r.Close()
+
+	for _, f := range r.File {
+		func() {
+			path := dir + string(filepath.Separator) + f.Name
+			os.MkdirAll(filepath.Dir(path), 0755)
+			fDest, err := os.Create(path)
+			if err != nil {
+				log.Printf("Create failed: %s\n", err.Error())
+				return
+			}
+			defer fDest.Close()
+
+			fSrc, err := f.Open()
+			if err != nil {
+				log.Printf("Open failed: %s\n", err.Error())
+				return
+			}
+			defer fSrc.Close()
+
+			_, err = io.Copy(fDest, fSrc)
+			if err != nil {
+				log.Printf("Copy failed: %s\n", err.Error())
+				return
+			}
+		}()
+	}
+}
+// @description: 四舍五入保留n位小数
+// @param:f 需要处理的float数
+// @param:n 需要保留的小数位数
+// @author: GJing
+// @email: gjing1st@gmail.com
+// @date: 2021/1/23 10:36
+// @success:
+func Round(f float64, n int) float64 {
+	n10 := math.Pow10(n)
+	return math.Trunc((f+0.5/n10)*n10) / n10
+}
+
+// Div 数字转字母
+func Div(Num int)  string{
+	var(
+		Str string = ""
+		k int
+		temp []int   //保存转化后每一位数据的值，然后通过索引的方式匹配A-Z
+	)
+	//用来匹配的字符A-Z
+	Slice := []string{"","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O",
+		"P","Q","R","S","T","U","V","W","X","Y","Z"}
+
+	if Num >26 {  //数据大于26需要进行拆分
+		for {
+			k = Num % 26  //从个位开始拆分，如果求余为0，说明末尾为26，也就是Z，如果是转化为26进制数，则末尾是可以为0的，这里必须为A-Z中的一个
+			if k == 0 {
+				temp = append(temp, 26)
+				k = 26
+			} else {
+				temp = append(temp, k)
+			}
+			Num = (Num - k) / 26 //减去Num最后一位数的值，因为已经记录在temp中
+			if Num <= 26{   //小于等于26直接进行匹配，不需要进行数据拆分
+				temp = append(temp, Num)
+				break
+			}
+		}
+	}else{
+		return Slice[Num]
+	}
+	for _,value := range temp{
+		Str = Slice[value] + Str //因为数据切分后存储顺序是反的，所以Str要放在后面
+	}
+	return Str
+}
+
+
