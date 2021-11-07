@@ -38,9 +38,8 @@ func Auth(sys, token string) (AuthRes, error) {
 	}
 	authRes := AuthRes{}
 	err = json.Unmarshal(resBytes, &authRes)
-	resData := authRes.Data
-	//if  resData != ""{
-	//	authRes.Data = string(RSA_Decrypt([]byte(resData),"private.pem"))
+	//if  authRes.Data != ""{
+	//	authRes.Data = string(RSA_Decrypt([]byte(authRes.Data),"private.pem"))
 	//}
 	return authRes, err
 }
