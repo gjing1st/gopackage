@@ -10,6 +10,7 @@ import (
 type AuthRes struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
+	Data    string `json:"data"`
 }
 
 // @description: 请求授权中心
@@ -37,5 +38,9 @@ func Auth(sys, token string) (AuthRes, error) {
 	}
 	authRes := AuthRes{}
 	err = json.Unmarshal(resBytes, &authRes)
+	resData := authRes.Data
+	//if  resData != ""{
+	//	authRes.Data = string(RSA_Decrypt([]byte(resData),"private.pem"))
+	//}
 	return authRes, err
 }
