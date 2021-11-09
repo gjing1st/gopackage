@@ -8,14 +8,15 @@ package user
 
 import (
 	"fmt"
-	"github.com/gogf/gf/frame/g"
 	"testing"
 )
 
 func TestGetDetailList(t *testing.T) {
-	token:="4s2mPvDtcEcI20rNtjPBgwbduPNjL31fq3P0-l3_IJpOfHJQodinjZVGSSPMTTSoV35xaKfpc4ifsG3c3vSUvLdnDgxaG5MzzoJxM5ppwbJ7joHTMk51Tt_A1iAv-rOpIljHFdi4Jy2gbaXTzQKIoW6JrIIzND8_Wr7webWuohnOjrUY6TReaN2wzOW075F21yLhKAeWKuD99SwP1sZ5cA"
+	token:="5j6WOn2hG1rjV2zIiIw83W0MeQEe8mBbbEbZSpMxOM0KgdxkfptdVqgM-xiPHZK6obFUEDZ1wsDAKuJzhIaLmk16SMqiFuVcqD4QvyoR5JoybGRHpL0ZwFAHz9gSGuzzdGDuV5Omknaa-6ENcN1o_6cr4ryMmhqRzeyTvF8Ngn41vMzMkCYZXhnkrFPdUB63iLWpUijcO5jYU9ACDH4WFA"
 
-	res,err := GetDetailList(token,2)
-	fmt.Println(res,err)
-	g.Dump(res)
+	//res,err := GetDetailList(token,2)
+	//fmt.Println(res,err)
+	//g.Dump(res)
+	r,err := GetUserInfoByCode(token,"123")
+	fmt.Println(r,err)
 }
