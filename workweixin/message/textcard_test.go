@@ -2,8 +2,8 @@ package message
 
 import (
 	"fmt"
-	"gitee.com/gjing1st/gopackage/workweixin"
-	"gitee.com/gjing1st/gopackage/workweixin/message"
+	"github.com/gjing1st/gopackage/workweixin"
+	"github.com/gjing1st/gopackage/workweixin/message"
 	"testing"
 )
 

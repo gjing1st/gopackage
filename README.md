@@ -7,12 +7,12 @@
 
 ## 2 使用说明
 ```bash
-go get -u -v gitee.com/gjing1st/gopackage
+go get -u -v github.com/gjing1st/gopackage
 ```
 
 #### 推荐使用 go.mod:
 ```bash
-require gitee.com/gjing1st/gopackage latest
+require github.com/gjing1st/gopackage latest
 ```
 
 ## 3. 限制

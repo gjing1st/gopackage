@@ -8,7 +8,7 @@ package gpfile
 
 import (
 	"fmt"
-	"gitee.com/gjing1st/gopackage/utils/functions"
+	"github.com/gjing1st/gopackage/utils/functions"
 	"github.com/gogf/gf/os/gfile"
 	"path/filepath"
 	"strings"

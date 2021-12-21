@@ -1,4 +1,4 @@
-module gitee.com/gjing1st/gopackage
+module github.com/gjing1st/gopackage
 
 go 1.17
 

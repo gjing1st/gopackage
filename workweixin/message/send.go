@@ -7,7 +7,7 @@
 package message
 
 import (
-	"gitee.com/gjing1st/gopackage/workweixin"
+	"github.com/gjing1st/gopackage/workweixin"
 	"log"
 	"net/url"
 )

@@ -2,8 +2,8 @@ package functions
 
 import (
 	"encoding/json"
-	log "gitee.com/gjing1st/gopackage/gplog"
-	"gitee.com/gjing1st/gopackage/net/gphttp"
+	log "github.com/gjing1st/gopackage/gplog"
+	"github.com/gjing1st/gopackage/net/gphttp"
 	"net/url"
 )
 

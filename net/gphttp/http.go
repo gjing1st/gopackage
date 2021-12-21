@@ -9,7 +9,7 @@ package gphttp
 import (
 	"bytes"
 	"encoding/json"
-	log "gitee.com/gjing1st/gopackage/gplog"
+	log "github.com/gjing1st/gopackage/gplog"
 	"io"
 	"io/ioutil"
 	"net/http"
