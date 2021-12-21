@@ -8,6 +8,7 @@ package gpfile
 
 import (
 	"fmt"
+	"gitee.com/gjing1st/gopackage/utils/functions"
 	"github.com/gogf/gf/os/gfile"
 	"path/filepath"
 	"strings"
@@ -33,7 +34,7 @@ func IsAllVideoFile(sourcePath string) bool {
 				}
 			} else {
 				ext := strings.TrimLeft(filepath.Ext(v), ".")
-				if ext != "" && !InArray(ext, VideoType) {
+				if ext != "" && !functions.InArray(ext, VideoType) {
 					return false
 				}
 			}
@@ -76,21 +77,3 @@ func IsEmptyCatalog(path string) bool {
 }
 
 
-// InArray
-// @description: 判断一个字符串是否在数组中
-// @param:
-// @author: GJing
-// @email: gjing1st@gmail.com
-// @date: 2020/11/13 14:42
-// @success:
-func InArray(value string, arr []string) bool {
-	if len(arr) == 0 {
-		return false
-	}
-	for _, v := range arr {
-		if v == value {
-			return true
-		}
-	}
-	return false
-}

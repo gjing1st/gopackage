@@ -6,7 +6,7 @@
 package registry
 
 import (
-	registry "golang.org/x/sys/windows/registry"
+	"golang.org/x/sys/windows/registry"
 	"log"
 	"os"
 	"os/exec"

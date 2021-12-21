@@ -2,7 +2,7 @@ package message
 
 import (
 	"encoding/json"
-	"github.com/gjing1st/gopackage/net/gphttp"
+	"gitee.com/gjing1st/gopackage/net/gphttp"
 )
 
 type TextCard struct {

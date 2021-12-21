@@ -7,9 +7,9 @@
 package message
 
 import (
+	"gitee.com/gjing1st/gopackage/workweixin"
 	"log"
 	"net/url"
-	"github.com/gjing1st/gopackage/workweixin"
 )
 
 type BaseParams struct {

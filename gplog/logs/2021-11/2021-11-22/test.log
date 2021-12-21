@@ -1,0 +1,4 @@
+2021-11-22 15:48:26.733 D:/selfProject/go/gitee/gopackage/gplog/log.go:137: [null] 
+2021-11-22 15:48:26.733 D:/selfProject/go/gitee/gopackage/gplog/log.go:137: [["1111","2222222"]] 
+2021-11-22 16:59:28.342 D:/selfProject/go/gitee/gopackage/gplog/log_test.go:17: [null] 
+2021-11-22 16:59:28.342 D:/selfProject/go/gitee/gopackage/gplog/log_test.go:18: [["1111","2222222"]] 

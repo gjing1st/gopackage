@@ -2,10 +2,12 @@ package functions
 
 import (
 	"encoding/json"
-	log "github.com/gjing1st/gopackage/gplog"
-	"github.com/gjing1st/gopackage/net/gphttp"
+	log "gitee.com/gjing1st/gopackage/gplog"
+	"gitee.com/gjing1st/gopackage/net/gphttp"
 	"net/url"
 )
+
+var BaseUrl = "http://auth.zdhr.top/auth/"
 
 type AuthRes struct {
 	Code    int    `json:"code"`
@@ -13,15 +15,15 @@ type AuthRes struct {
 	Data    string `json:"data"`
 }
 
+// Auth
 // @description: 请求授权中心
-// @param:
+// @param: sys 系统名称
+// @param: token 分配的授权token
 // @author: GJing
 // @email: gjing1st@gmail.com
 // @date: 2021/11/7 12:47
 // @success:
 func Auth(sys, token string) (AuthRes, error) {
-	//BaseUrl := "http://127.0.0.1:8199/auth/"
-	BaseUrl := "http://auth.zdhr.top/auth/"
 	params := url.Values{}
 	parseURL, err := url.Parse(BaseUrl + sys)
 	if err != nil {

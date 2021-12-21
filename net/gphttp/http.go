@@ -9,14 +9,11 @@ package gphttp
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
-	log "github.com/gjing1st/gopackage/gplog"
+	log "gitee.com/gjing1st/gopackage/gplog"
 	"io"
 	"io/ioutil"
-	"mime/multipart"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 	"syscall"
 )
@@ -28,19 +25,41 @@ import (
 // @email: gjing1st@gmail.com
 // @date: 2021/11/2 14:11
 // @return:
-func GetRequest(url string) ([]byte, error) {
-	resp, err := http.Get(url)
+func GetRequest(reqUrl string) ([]byte, error) {
+	apiUrl,err := url.Parse(reqUrl)
 	if err != nil {
-		log.LogFile("request", "请求", url, "失败,err=", err)
+		log.LogFile("request", "url解析失败", reqUrl, "失败,err=", err)
 		return nil, err
 	}
-	b, err := ioutil.ReadAll(resp.Body)
-	resp.Body.Close()
+	resp, err := http.Get(apiUrl.String())
 	if err != nil {
-		log.LogFile("request", "fetch: reading %s: %v\n", url, err)
+		log.LogFile("request", "请求", reqUrl, "失败,err=", err)
 		return nil, err
 	}
-	return b, nil
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
+}
+
+// PostRequest
+// @description: post请求
+// @param: reqUrl 请求地址
+// @param: params 请求参数 url.Values类型
+// @author: GJing
+// @email: gjing1st@gmail.com
+// @date: 2021/11/12 10:56
+// @return:
+func PostRequest(reqUrl string, params url.Values) (rs []byte, err error) {
+	apiUrl,err := url.Parse(reqUrl)
+	if err != nil {
+		log.LogFile("request", "url解析失败", reqUrl, "失败,err=", err)
+		return nil, err
+	}
+	resp, err := http.PostForm(apiUrl.String(), params)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
 }
 
 // GetRequestWithHeader
@@ -50,9 +69,9 @@ func GetRequest(url string) ([]byte, error) {
 // @email: gjing1st@gmail.com
 // @date: 2021/11/2 14:13
 // @return:
-func GetRequestWithHeader(url string)  ([]byte, error){
+func GetRequestWithHeader(reqUrl string)  ([]byte, error){
 	client := http.Client{}
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+	req, err := http.NewRequest(http.MethodGet, reqUrl, nil)
 	if err != nil {
 		log.Println("err")
 	}
@@ -139,118 +158,9 @@ func PostJson(reqUrl string,bytesData []byte) (result []byte, err error) {
 	return result,nil
 }
 
-func httpPost() {
-	resp, err := http.Post("http://www.01happy.com/demo/accept.php",
-		"application/x-www-form-urlencoded",
-		strings.NewReader("name=cjb"))
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		// handle error
-	}
-
-	fmt.Println(string(body))
-}
-
-func httpPostForm() {
-	resp, err := http.PostForm("http://www.01happy.com/demo/accept.php",
-		url.Values{"key": {"Value"}, "id": {"123"}})
-
-	if err != nil {
-		// handle error
-	}
-
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		// handle error
-	}
-
-	fmt.Println(string(body))
-
-}
-
-func httpDo() {
-	client := &http.Client{}
-
-	req, err := http.NewRequest("POST", "http://www.01happy.com/demo/accept.php", strings.NewReader("name=cjb"))
-	if err != nil {
-		// handle error
-	}
-
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Cookie", "name=anny")
-
-	resp, err := client.Do(req)
-
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		// handle error
-	}
-
-	fmt.Println(string(body))
-}
-
-//body提交二进制数据
-func DoBytesPost(url string, data []byte) ([]byte, error) {
-
-	body := bytes.NewReader(data)
-	request, err := http.NewRequest("post", url, body)
-	if err != nil {
-		log.Println("http.NewRequest,[err=%s][url=%s]", err, url)
-		return []byte(""), err
-	}
-	request.Header.Set("Connection", "Keep-Alive")
-	var resp *http.Response
-	resp, err = http.DefaultClient.Do(request)
-	if err != nil {
-		log.Println("http.Do failed,[err=%s][url=%s]", err, url)
-		return []byte(""), err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println("http.Do failed,[err=%s][url=%s]", err, url)
-	}
-	return b, err
-}
-
-func newfileUploadRequest(uri string, params map[string]string, paramName, path string) (*http.Request, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile(paramName, path)
-	if err != nil {
-		return nil, err
-	}
-	_, err = io.Copy(part, file)
-
-	for key, val := range params {
-		_ = writer.WriteField(key, val)
-	}
-	err = writer.Close()
-	if err != nil {
-		return nil, err
-	}
-	request, err := http.NewRequest("POST", uri, body)
-	request.Header.Set("Content-Type", writer.FormDataContentType())
-	return request, err
-}
-
-
 const HTTP_CT_JSON = "application/json"
 
-func JsonRestRequest(method, url string, req, res interface{}) (sc int, err error) {
+func JsonRestRequest(method, reqUrl string, req, res interface{}) (sc int, err error) {
 	var reader io.Reader
 	var resp *http.Response
 	var data []byte
@@ -263,12 +173,12 @@ func JsonRestRequest(method, url string, req, res interface{}) (sc int, err erro
 		reader = bytes.NewReader(data)
 	}
 	if method == "GET" {
-		resp, err = http.Get(url)
+		resp, err = http.Get(reqUrl)
 	} else if method == "POST" {
-		resp, err = http.Post(url, HTTP_CT_JSON, reader)
+		resp, err = http.Post(reqUrl, HTTP_CT_JSON, reader)
 	} else {
 		var req *http.Request
-		req, err = http.NewRequest(method, url, reader)
+		req, err = http.NewRequest(method, reqUrl, reader)
 		if err != nil {
 			return
 		}

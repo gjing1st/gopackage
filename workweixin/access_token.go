@@ -9,8 +9,8 @@ package workweixin
 import (
 	"encoding/json"
 	"errors"
-	log "github.com/gjing1st/gopackage/gplog"
-	"github.com/gjing1st/gopackage/net/gphttp"
+	log "gitee.com/gjing1st/gopackage/gplog"
+	"gitee.com/gjing1st/gopackage/net/gphttp"
 	"net/url"
 )
 

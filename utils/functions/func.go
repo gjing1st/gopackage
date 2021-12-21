@@ -9,12 +9,12 @@ import (
 	"archive/zip"
 	"crypto/md5"
 	"encoding/hex"
-	"github.com/gogf/gf/util/gconv"
 	"io"
 	"log"
 	"math"
 	"os"
 	"path/filepath"
+	"strconv"
 )
 
 // Md5
@@ -49,14 +49,14 @@ func InArray(value string, arr []string) bool {
 
 // ReserveNumber
 // @description: 截取保留小数点后m位，舍去后面位数
-// @param: i 接口，int,float,string类型
+// @param: f float64
 // @param: m 保留的位数
 // @author: GJing
 // @email: gjing1st@gmail.com
 // @date: 2020/11/25 上午 10:31
 // @success: 返回截取后的字符串
-func ReserveNumber(i interface{}, m int) string {
-	s := gconv.String(i)
+func ReserveNumber(f float64, m int) string {
+	s := strconv.FormatFloat(f, 'f', -1, 64)
 	for i := 0; i < len(s); i++ {
 		if s[i] == '.' {
 			s = s[:i+m+1]

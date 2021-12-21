@@ -9,8 +9,8 @@ package department
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gjing1st/gopackage/net/gphttp"
-	"github.com/gjing1st/gopackage/workweixin"
+	"gitee.com/gjing1st/gopackage/net/gphttp"
+	"gitee.com/gjing1st/gopackage/workweixin"
 	"log"
 	"net/url"
 	"strconv"

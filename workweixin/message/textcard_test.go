@@ -2,16 +2,16 @@ package message
 
 import (
 	"fmt"
-	"github.com/gjing1st/gopackage/workweixin/message"
-	"gopackage/workweixin"
+	"gitee.com/gjing1st/gopackage/workweixin"
+	"gitee.com/gjing1st/gopackage/workweixin/message"
 	"testing"
 )
 
 func TestSendCardMessage(t *testing.T) {
 	text := message.TextCard{
-		"程序员节领奖通知",
-		"<div class=\\\"gray\\\">2021年10月21日</div> <div class=\\\"normal\\\">恭喜你抽中iPhone 13一台，领奖码：XSDEF</div><div class=\\\"highlight\\\">请于2021年10月25日前联系行政同事领取</div>",
-		"https://www.baidu.com",
+		"待审批通知",
+		" <div class=\\\"normal\\\">您收到一条待审批访客单</div><div class=\\\"highlight\\\">请登录系统查看审批</div>",
+		"https://open.weixin.qq.com/connect/oauth2/authorize?appid=ww887a89a56b64260f&redirect_uri=http://visit.sd1st.top/login&response_type=code&scope=snsapi_base",
 		"查看详情",
 	}
 	param := message.BaseParams {

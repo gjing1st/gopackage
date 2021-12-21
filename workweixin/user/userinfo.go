@@ -9,9 +9,9 @@ package user
 import (
 	"encoding/json"
 	"errors"
-	log "github.com/gjing1st/gopackage/gplog"
-	"github.com/gjing1st/gopackage/net/gphttp"
-	"github.com/gjing1st/gopackage/workweixin"
+	log "gitee.com/gjing1st/gopackage/gplog"
+	"gitee.com/gjing1st/gopackage/net/gphttp"
+	"gitee.com/gjing1st/gopackage/workweixin"
 	"net/url"
 )
 

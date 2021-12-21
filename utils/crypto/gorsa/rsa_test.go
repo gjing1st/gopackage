@@ -1,4 +1,10 @@
-package functions
+// rsa_test.go
+// Created by BestTeam.
+// User: GJing
+// WeChat: ks_kdb
+// Date: 2021/11/11$ 11:03$
+
+package gorsa
 
 import (
 	"encoding/json"
@@ -6,21 +12,10 @@ import (
 	"testing"
 )
 
-func TestAuth(t *testing.T) {
-	res,err := Auth("visit","2178")
-	fmt.Println("res.Code=",res.Code)
-	fmt.Println("err = ",err)
-	fmt.Println(res.Message,err)
-}
-
 func TestRSA_Encrypt(t *testing.T) {
 	//生成密钥对，保存到文件
 	//GenerateRSAKey(2048)
-	res := AuthRes{
-		0,
-		"ok",
-		"",
-	}
+	res := "hello"
 	//message:=[]byte("hello world")
 	message,_:=json.Marshal(res)
 	//加密
